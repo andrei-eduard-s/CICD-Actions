@@ -1,0 +1,46 @@
+name: Terraform run
+description: Run terraform plan/apply/destroy with common steps
+inputs:
+  command:
+    description: "Terraform command to run: plan/apply/destroy"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.8.5"
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: eu-west-1
+
+    - name: Terraform fmt
+      shell: bash
+      run: terraform fmt -check
+
+    - name: Terraform init
+      shell: bash
+      run: terraform init -input=false
+
+    - name: Terraform ${{ inputs.command }}
+      shell: bash
+      run: |
+        if [ "${{ inputs.command }}" = "plan" ]; then
+          terraform plan -input=false -no-color
+        elif [ "${{ inputs.command }}" = "apply" ]; then
+          terraform apply -input=false -auto-approve
+        elif [ "${{ inputs.command }}" = "destroy" ]; then
+          terraform destroy -input=false -auto-approve
+        else
+          echo "Unsupported command: ${{ inputs.command }}"
+          exit 1
+        fi
