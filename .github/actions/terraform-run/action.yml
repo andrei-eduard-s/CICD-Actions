@@ -25,11 +25,11 @@ runs:
       shell: bash
       run: |
         if [ "${{ inputs.command }}" = "plan" ]; then
-          terraform plan -input=false -no-color
+          terraform plan -input=false -no-color -var-file="ci.tfvars"
         elif [ "${{ inputs.command }}" = "apply" ]; then
-          terraform apply -input=false -auto-approve
+          terraform apply -input=false -auto-approve -var-file="ci.tfvars"
         elif [ "${{ inputs.command }}" = "destroy" ]; then
-          terraform destroy -input=false -auto-approve
+          terraform destroy -input=false -auto-approve -var-file="ci.tfvars"
         else
           echo "Unsupported command: ${{ inputs.command }}"
           exit 1
