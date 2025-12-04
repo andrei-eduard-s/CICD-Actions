@@ -1,0 +1,17 @@
+name: Terraform PR checks
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [ opened, synchronize, reopened ]
+
+jobs:
+  terraform-plan:
+    name: Terraform plan on PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run terraform plan via composite action
+        uses: ./.github/actions/terraform-run
+        with:
+          command: plan
