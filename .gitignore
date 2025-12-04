@@ -1,0 +1,13 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+
+# Sensitive vars and scripts
+terraform.tfvars
+aws_creds.sh
+
+# Misc
+*.log
+Key-RSA-AndreiS.pub
