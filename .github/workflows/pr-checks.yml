@@ -8,6 +8,10 @@ on:
 jobs:
   terraform-plan:
     name: Terraform plan on PR
-    uses: ./.github/workflows/terraform-run.yml
-    with:
-      command: plan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run terraform plan via composite action
+        uses: ./.github/actions/terraform-run
+        with:
+          command: plan
