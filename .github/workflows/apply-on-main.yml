@@ -1,4 +1,4 @@
-name: Terraform apply on main
+name: Terraform plan on main
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  terraform-apply:
-    name: Terraform apply on main
+  terraform-plan-main:
+    name: Terraform plan on main
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: eu-central-1
 
-      - name: Run terraform apply via composite action
+      - name: Run terraform plan via composite action
         uses: ./.github/actions/terraform-run
         with:
-          command: apply
+          command: plan
