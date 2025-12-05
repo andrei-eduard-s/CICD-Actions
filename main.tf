@@ -133,7 +133,7 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "aws_lb_listener_rule" "foo" {
-  listener_arn = "arn:aws:elasticloadbalancing:eu-central-1:669788234127:listener/app/andreis-alb/cb5751a3a679d918/f1f47cda7375367a"
+  listener_arn = aws_lb_listener.http.arn
 
   action {
     type             = "forward"
@@ -147,7 +147,7 @@ resource "aws_lb_listener_rule" "foo" {
 }
 
 resource "aws_lb_listener_rule" "bar" {
-  listener_arn = "arn:aws:elasticloadbalancing:eu-central-1:669788234127:listener/app/andreis-alb/cb5751a3a679d918/f1f47cda7375367a"
+  listener_arn = aws_lb_listener.http.arn
 
   action {
     type             = "forward"
